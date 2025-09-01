@@ -12,3 +12,5 @@ print("Texto cifrado:", texto_cifrado)
 
 # Enviar automáticamente por ICMP
 send_stealth_ping(texto_cifrado)
+
+
