@@ -1,0 +1,20 @@
+FROM --platform=linux/amd64 ubuntu:22.04
+
+RUN apt-get update && apt-get install -y \
+    wget \
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libpam0g-dev
+WORKDIR /root
+RUN wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.0p1.tar.gz
+RUN tar -xzf openssh-9.0p1.tar.gz
+
+WORKDIR /root/openssh-9.0p1
+RUN sed -i 's/#define SSH_VERSION.*/#define SSH_VERSION "SSH-2.0-OpenSSH_?"/' version.h
+
+RUN ./configure --prefix=/usr/local --sysconfdir=/etc/ssh
+RUN make
+RUN make install
+
+CMD ["/bin/bash"]
